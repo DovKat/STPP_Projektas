@@ -1,0 +1,5 @@
+dotnet ef migrations add "initial structure"
+
+docker-compose up  
+
+dotnet ef database update   

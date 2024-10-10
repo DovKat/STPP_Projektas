@@ -1,0 +1,6 @@
+@STTP_projektas_HostAddress = http://localhost:5266
+
+GET {{STTP_projektas_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
