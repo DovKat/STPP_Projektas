@@ -1,3 +1,6 @@
+using FluentValidation;
+using STTP_projektas.Data.DatabaseObjects;
+
 namespace STTP_projektas.Data.Entities;
 
 public class Post
@@ -8,9 +11,10 @@ public class Post
     public required DateTimeOffset CreatedAt { get; set; }
     
     public bool IsBlocked{ get; set; }
-
-    public TopicDto ToDto()
+    public bool IsDeleted { get; set; }
+    public int ForumId { get; set; }
+    public PostDto ToDto()
     {
-        return new TopicDto(Id, Title, Description, CreatedAt);
+        return new PostDto(Id, ForumId ,Title, Description, CreatedAt);
     }
 }

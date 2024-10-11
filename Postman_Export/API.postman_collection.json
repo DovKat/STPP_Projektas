@@ -1,0 +1,572 @@
+{
+	"info": {
+		"_postman_id": "21c27265-bc7c-4f71-ba25-4b8130075185",
+		"name": "API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38429241"
+	},
+	"item": [
+		{
+			"name": "Forums",
+			"item": [
+				{
+					"name": "GetList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Spam\",\r\n    \"description\": \"This is spam\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forums",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddFail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": null,\r\n    \"description\": \"This is my first post here\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/posts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"A car forum for real men and women (edited)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "GetList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postid",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postid"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postid",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Is this the wrong forum?\",\r\n    \"description\": \"I think I posted in the wrong one\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postId"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"I think I posted in the wrong one, nvm\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postid",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postid"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postid",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "GetList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postId/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postId",
+								"comments"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postId/comments/:commentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postId",
+								"comments",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postId",
+									"value": "3"
+								},
+								{
+									"key": "commentId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"{\r",
+									"  \"title\": \"string\",\r",
+									"  \"description\": \"string\"\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Mhm thats right\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postId/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postId",
+								"comments"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postId/comments/:commentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postId",
+								"comments",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postId",
+									"value": "3"
+								},
+								{
+									"key": "commentId",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Bye my lamest people\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/forums/:forumId/posts/:postId/comments/:commentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forums",
+								":forumId",
+								"posts",
+								":postId",
+								"comments",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "forumId",
+									"value": "4"
+								},
+								{
+									"key": "postId",
+									"value": "3"
+								},
+								{
+									"key": "commentId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5266/api",
+			"type": "string"
+		}
+	]
+}

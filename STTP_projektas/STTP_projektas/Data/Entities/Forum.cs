@@ -1,3 +1,5 @@
+using STTP_projektas.Data.DatabaseObjects;
+
 namespace STTP_projektas.Data.Entities;
 
 public class Forum
@@ -6,9 +8,10 @@ public class Forum
     public required string Title { get; set; }
     public required string Description { get; set; }
     public required DateTimeOffset CreatedAt { get; set; }
-    
-    public TopicDto ToDto()
+    public ForumDto ToDto()
     {
-        return new TopicDto(Id, Title, Description, CreatedAt);
+        return new ForumDto(Id, Title, Description, CreatedAt);
     }
 }
+
+

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\STTP_projektas.props" />
+</Project>
