@@ -211,7 +211,7 @@ public static class Endpoints
 
             await dbContext.SaveChangesAsync();
 
-            return TypedResults.Created($"api/forums/{forumId}/posts/{postId}/comments/{comment.Id}", post.ToDto());
+            return TypedResults.Created($"api/forums/{forumId}/posts/{postId}/comments/{comment.Id}", comment.ToDto());
         })
         .WithName("CreateComment")
         .WithMetadata(new SwaggerOperationAttribute("Create a new comment", "Creates a new comment with the given data and returns the created comment."))

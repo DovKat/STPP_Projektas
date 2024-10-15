@@ -7,7 +7,7 @@ public record ForumDto(int Id, string Title, string Description, DateTimeOffset 
 
 public record CreateForumDto(string Title, Forum Forum, string Description)
 {
-    public class CreateForumDtoValidator : AbstractValidator<CreatePostDto>
+    public class CreateForumDtoValidator : AbstractValidator<CreateForumDto>
     {
         public CreateForumDtoValidator()
         {

@@ -1,27 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {}
+    "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {}
   },
   "projects": {
-    "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {
+    "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
+        "projectUniqueName": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
         "projectName": "STTP_projektas",
-        "projectPath": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
-        "packagesPath": "C:\\Users\\Šilų kompas\\.nuget\\packages\\",
-        "outputPath": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\obj\\",
+        "projectPath": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
+        "packagesPath": "C:\\Users\\d.katinas.INT\\.nuget\\packages\\",
+        "outputPath": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Šilų kompas\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\d.katinas.INT\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {},
-          "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json": {}
+          "https://proget.bs.cid-online.net/nuget/Artemis/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
@@ -33,11 +35,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -106,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
