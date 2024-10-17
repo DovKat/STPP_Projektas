@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using STTP_projektas.Data;
 using STTP_projektas.Data.DatabaseObjects;
 using STTP_projektas.Data.Entities;
+using STTP_projektas.Examples;
 using Swashbuckle.AspNetCore.Annotations;
-
+using Swashbuckle.AspNetCore.Filters;
 namespace STTP_projektas.Extensions;
 
 public static class Endpoints
@@ -42,29 +44,30 @@ public static class Endpoints
         .WithName("CreateForum")
         .WithMetadata(new SwaggerOperationAttribute("Create a new forum", "Creates a new forum with the given data and returns the created post."))
         .Produces<ForumDto>(StatusCodes.Status201Created)
-        .Produces(StatusCodes.Status400BadRequest);
+        .Produces(StatusCodes.Status422UnprocessableEntity);
 
-        forumsGroups.MapPut("/forums/{forumId}", async (int forumId, UpdatedForumDto dto,  SttpDbContext dbContext) =>
-        {
-            var forum = await dbContext.Forums.FindAsync(forumId);
-            if (forum == null)
+        forumsGroups.MapPut("/forums/{forumId}", async (int forumId, UpdatedForumDto dto, SttpDbContext dbContext) =>
             {
-                return Results.NotFound();
-            }
+                var forum = await dbContext.Forums.FindAsync(forumId);
+                if (forum == null)
+                {
+                    return Results.NotFound();
+                }
 
-            forum.Description = dto.description;
+                forum.Description = dto.description;
 
-            dbContext.Forums.Update(forum);
-            await dbContext.SaveChangesAsync();
-    
-            return TypedResults.Ok(forum.ToDto());
+                dbContext.Forums.Update(forum);
+                await dbContext.SaveChangesAsync();
 
-        })
-        .WithName("UpdateForum")
-        .WithMetadata(new SwaggerOperationAttribute("Update an existing post", "Updates the description of an existing post with the given ID."))
-        .Produces<ForumDto>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status400BadRequest);
+                return TypedResults.Ok(forum.ToDto());
+
+            })
+            .WithName("UpdateForum")
+            .WithMetadata(new SwaggerOperationAttribute("Update an existing post",
+                "Updates the description of an existing post with the given ID."))
+            .Produces<ForumDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+
 
         forumsGroups.MapDelete("/forums/{forumId}", async (int forumId, SttpDbContext dbContext) =>
         {
@@ -92,18 +95,19 @@ public static class Endpoints
         
         postsGroups.MapGet("/posts", async (int forumId, SttpDbContext dbContext) =>
         { 
-            //var forum = await dbContext.Forums.FindAsync(forumId);
-           // if (forum == null)
-           // {
-           //     return Results.NotFound();
-           //}
-           return (await dbContext.Posts.ToListAsync())
+            var forum = await dbContext.Forums.FindAsync(forumId);
+           if (forum == null)
+           {
+                return Results.NotFound();
+           }
+           return Results.Ok((await dbContext.Posts.ToListAsync())
                .Where(post => forumId == post.ForumId)
-               .Select(post => post.ToDto());
+               .Select(post => post.ToDto()));
         })
         .WithName("GetAllPosts")
         .WithMetadata(new SwaggerOperationAttribute("Get All Posts", "Returns a list of all posts."))
-        .Produces<List<PostDto>>(StatusCodes.Status200OK);
+        .Produces<List<PostDto>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
 
         postsGroups.MapGet("/posts/{postId}", async (int forumId, int postId, SttpDbContext dbContext) =>
         {
@@ -132,7 +136,7 @@ public static class Endpoints
         .WithName("CreatePost")
         .WithMetadata(new SwaggerOperationAttribute("Create a new post", "Creates a new post with the given data and returns the created post."))
         .Produces<PostDto>(StatusCodes.Status201Created)
-        .Produces(StatusCodes.Status400BadRequest);
+        .Produces(StatusCodes.Status422UnprocessableEntity);
 
         postsGroups.MapPut("/posts/{postId}", async (int forumId, UpdatedPostDto dto, int postId, SttpDbContext dbContext) =>
         {
@@ -154,7 +158,7 @@ public static class Endpoints
         .WithMetadata(new SwaggerOperationAttribute("Update an existing post", "Updates the description of an existing post with the given ID."))
         .Produces<PostDto>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status400BadRequest);
+        .Produces(StatusCodes.Status422UnprocessableEntity);
 
         postsGroups.MapDelete("/posts/{postId}", async (int forumId, int postId, SttpDbContext dbContext) =>
         {
@@ -174,20 +178,28 @@ public static class Endpoints
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
     }
-    
-     public static void AddCommentApi(this WebApplication app)
+
+    public static void AddCommentApi(this WebApplication app)
     {
-        var commentsGroups = app.MapGroup("/api/forums/{forumId}/posts/{postId}").AddFluentValidationAutoValidation().WithTags("Comments");
-        
+        var commentsGroups = app.MapGroup("/api/forums/{forumId}/posts/{postId}").AddFluentValidationAutoValidation()
+            .WithTags("Comments");
+
         commentsGroups.MapGet("/comments", async (int forumId, int postId, SttpDbContext dbContext) =>
-        { 
-            return (await dbContext.Comments.ToListAsync())
+        {
+            var forum = await dbContext.Forums.FindAsync(forumId);
+            var post = await dbContext.Posts.FindAsync(postId);
+            if (forum == null|| post == null)
+            {
+                return Results.NotFound();
+            }
+            return Results.Ok((await dbContext.Comments.ToListAsync())
                 .Where(comment =>  postId == comment.PostId)
-                .Select(comment => comment.ToDto());
+                .Select(comment => comment.ToDto()));
         })
         .WithName("GetAllcomments")
         .WithMetadata(new SwaggerOperationAttribute("Get All comment", "Returns a list of all comments."))
-        .Produces<List<CommentDto>>(StatusCodes.Status200OK);
+        .Produces<List<CommentDto>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
 
         commentsGroups.MapGet("/comments/{commentId}", async (int commentId, int forumId, int postId, SttpDbContext dbContext) =>
         {
@@ -216,7 +228,7 @@ public static class Endpoints
         .WithName("CreateComment")
         .WithMetadata(new SwaggerOperationAttribute("Create a new comment", "Creates a new comment with the given data and returns the created comment."))
         .Produces<CommentDto>(StatusCodes.Status201Created)
-        .Produces(StatusCodes.Status400BadRequest);
+        .Produces(StatusCodes.Status422UnprocessableEntity);
 
         commentsGroups.MapPut("/comments/{commentId}", async (int commentId, int forumId, UpdatedCommentDto dto, int postId, SttpDbContext dbContext) =>
         {
@@ -234,11 +246,13 @@ public static class Endpoints
             return TypedResults.Ok(comment.ToDto());
 
         })
+        .Accepts<UpdatedCommentDto>("application/json")
         .WithName("UpdateComment")
         .WithMetadata(new SwaggerOperationAttribute("Update an existing comment", "Updates the description of an existing comment with the given ID."))
         .Produces<CommentDto>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status400BadRequest);
+        .Produces(StatusCodes.Status422UnprocessableEntity)
+        ;
 
         commentsGroups.MapDelete("/comments/{commentId}", async (int commentId, int forumId, int postId, SttpDbContext dbContext) =>
         {

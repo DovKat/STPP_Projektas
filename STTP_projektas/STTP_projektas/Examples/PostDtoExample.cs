@@ -8,12 +8,6 @@ public class PostDtoExample : IExamplesProvider<PostDto>
 {
     public PostDto GetExamples()
     {
-        return null; /*  new PostDto
-        {
-            Id = 1,
-            Forum =
-            Title = "Example Post",
-            Description = "This is an example post description."
-        };  */
+        return new PostDto(9, 6, "This is an example post", "This is an example description", DateTimeOffset.UtcNow);
     } 
 }

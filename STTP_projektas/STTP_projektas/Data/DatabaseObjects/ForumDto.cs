@@ -5,7 +5,7 @@ namespace STTP_projektas.Data.DatabaseObjects;
 
 public record ForumDto(int Id, string Title, string Description, DateTimeOffset CreatedOn);
 
-public record CreateForumDto(string Title, Forum Forum, string Description)
+public record CreateForumDto(string Title,  string Description)
 {
     public class CreateForumDtoValidator : AbstractValidator<CreateForumDto>
     {
