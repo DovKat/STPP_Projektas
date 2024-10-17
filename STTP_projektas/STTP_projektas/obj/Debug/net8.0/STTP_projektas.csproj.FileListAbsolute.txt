@@ -227,3 +227,4 @@ C:\Storage\Personal\GitHub\STPP_Projektas\STTP_projektas\STTP_projektas\obj\Debu
 C:\Storage\Personal\GitHub\STPP_Projektas\STTP_projektas\STTP_projektas\obj\Debug\net8.0\STTP_projektas.pdb
 C:\Storage\Personal\GitHub\STPP_Projektas\STTP_projektas\STTP_projektas\obj\Debug\net8.0\STTP_projektas.genruntimeconfig.cache
 C:\Storage\Personal\GitHub\STPP_Projektas\STTP_projektas\STTP_projektas\obj\Debug\net8.0\ref\STTP_projektas.dll
+C:\Storage\Personal\GitHub\STPP_Projektas\STTP_projektas\STTP_projektas\bin\Debug\net8.0\STTP_projektas.staticwebassets.runtime.json
