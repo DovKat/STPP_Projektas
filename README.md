@@ -2,7 +2,7 @@
  Saityno taikomųjų programų projektavimo kurso projektas
 <hr/>
 <h3>Pasirinktų technologijų aprašymas</h3>
-<p>⚝ DB sprendimas - Azure SQL</p>
+<p>⚝ DB sprendimas - PostgreSQL</p>
 <p>⚝ Backend - .NET 8 su Entity Framework DB interakcijai</p>
 <p>⚝ Frontend - React su Node.js</p>
 
