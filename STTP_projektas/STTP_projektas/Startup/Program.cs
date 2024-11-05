@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -11,6 +12,13 @@ using STTP_projektas.Factories;
 using STTP_projektas.Extensions;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using STTP_projektas.Auth;
+using STTP_projektas.Auth.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +26,7 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath); // Ensur
 builder.Configuration.AddJsonFile("./startup/configs/appsettings.json", optional: false, reloadOnChange: true); // Explicitly load the config file
 
 builder.Services
-        
+
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(c =>
     {
@@ -34,6 +42,7 @@ builder.Services
     {
         configuration.OverrideDefaultResultFactoryWith<ProblemDetailsResultFactory>();
     })
+    //Swagger
     .AddSwaggerExamplesFromAssemblyOf<CommentDtoExample>()
     .AddSwaggerExamplesFromAssemblyOf<CreateCommentDtoExample>()
     .AddSwaggerExamplesFromAssemblyOf<UpdatedCommentDtoExample>()
@@ -45,11 +54,38 @@ builder.Services
     .AddSwaggerExamplesFromAssemblyOf<UpdatedPostDtoExample>()
     .AddSwaggerExamplesFromAssemblyOf<ListForumDtoExample>()
     .AddSwaggerExamplesFromAssemblyOf<ListCommentDtoExample>()
-    .AddSwaggerExamplesFromAssemblyOf<ListPostDtoExample>();
-
+    .AddSwaggerExamplesFromAssemblyOf<ListPostDtoExample>()
+    //Identity
+    .AddIdentity<ForumUser, IdentityRole>()
+    .AddEntityFrameworkStores<SttpDbContext>()
+    .AddDefaultTokenProviders();
+    //Authentication
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
+    {
+        options.MapInboundClaims = false;
+        options.TokenValidationParameters.ValidAudience = builder.Configuration["Jwt:ValidAudience"];
+        options.TokenValidationParameters.ValidIssuer = builder.Configuration["Jwt:ValidIssuer"];
+        options.TokenValidationParameters.IssuerSigningKey =
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]));
+    });
+    //Authorization
+builder.Services
+    .AddAuthorization() 
+    //seeder
+    .AddScoped<AuthSeeder>()
+    .AddTransient<JwtTokenService>();
 
 var app = builder.Build();
 
+using var scope = app.Services.CreateScope();
+//var dbContext = scope.ServiceProvider.GetRequiredService<SttpDbContext>();
+var dbSeeder = scope.ServiceProvider.GetRequiredService<AuthSeeder>();
+await dbSeeder.SeedAsync();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles(); // This must come before routing
@@ -84,7 +120,10 @@ app.UseHttpsRedirection();
 
 app.AddPostApi();
 app.AddForumApi();
+app.AddAuthApi();
 app.AddCommentApi();
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();
 
 

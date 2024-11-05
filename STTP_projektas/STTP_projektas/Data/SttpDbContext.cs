@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using STTP_projektas.Auth.Model;
 using STTP_projektas.Data.Entities;
 
 namespace STTP_projektas.Data;
 
-public class SttpDbContext(IConfiguration configuration) : DbContext
+public class SttpDbContext(IConfiguration configuration) : IdentityDbContext<ForumUser>
 {
     public DbSet<Post> Posts { get; set; }
     public DbSet<Forum> Forums { get; set; }

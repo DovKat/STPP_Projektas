@@ -1,29 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {}
+    "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {}
   },
   "projects": {
-    "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {
+    "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
+        "projectUniqueName": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
         "projectName": "STTP_projektas",
-        "projectPath": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
-        "packagesPath": "C:\\Users\\d.katinas.INT\\.nuget\\packages\\",
-        "outputPath": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\obj\\",
+        "projectPath": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\STTP_projektas.csproj",
+        "packagesPath": "C:\\Users\\Šilų kompas\\.nuget\\packages\\",
+        "outputPath": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\d.katinas.INT\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Šilų kompas\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {},
-          "https://proget.bs.cid-online.net/nuget/Artemis/v3/index.json": {}
+          "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
@@ -35,6 +33,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -48,6 +51,14 @@
             "FluentValidation.DependencyInjectionExtensions": {
               "target": "Package",
               "version": "[11.10.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
@@ -103,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

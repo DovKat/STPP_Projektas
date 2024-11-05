@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using STTP_projektas.Auth.Model;
 using STTP_projektas.Data.DatabaseObjects;
 
 namespace STTP_projektas.Data.Entities;
@@ -12,6 +14,11 @@ public class Comment
     public bool IsDeleted { get; set; }
     
     public int PostId{ get; set; }
+    
+    [Required]
+    public required string UserId { get; set; }
+    public ForumUser User { get; set; }
+    
     public CommentDto ToDto()
     {
         return new CommentDto(Id, PostId, Description, CreatedAt);

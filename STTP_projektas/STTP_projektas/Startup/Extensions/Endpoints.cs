@@ -35,7 +35,7 @@ public static class Endpoints
 
         forumsGroups.MapPost("/forums", async (CreateForumDto dto, SttpDbContext dbContext) =>
         {
-            var forum = new Forum{Title = dto.Title, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow};
+            var forum = new Forum{Title = dto.Title, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = ""};
             dbContext.Forums.Add(forum);
             await dbContext.SaveChangesAsync();
 
@@ -126,7 +126,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-            var post = new Post{Title = dto.Title, ForumId = forumId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow};
+            var post = new Post{Title = dto.Title, ForumId = forumId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = ""};
             dbContext.Posts.Add(post);
 
             await dbContext.SaveChangesAsync();
@@ -218,7 +218,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-            var comment = new Comment{ PostId = postId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow};
+            var comment = new Comment{ PostId = postId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = ""};
             dbContext.Comments.Add(comment);
 
             await dbContext.SaveChangesAsync();

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HLKqxJYjcUjgf27zFZhCLmm3sZ1tp1zoOzUJ2IKznOg=",
+  "Hash": "SW4q8gQOvP8AH+YyH4u4ios159pUbY3q9GwkeIzWt18=",
   "Source": "STTP_projektas",
   "BasePath": "_content/STTP_projektas",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "STTP_projektas\\wwwroot",
       "Source": "STTP_projektas",
-      "ContentRoot": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\wwwroot\\",
+      "ContentRoot": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\wwwroot\\",
       "BasePath": "_content/STTP_projektas",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\wwwroot\\hacker_anonymous_icon_154428.ico",
+      "Identity": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\wwwroot\\hacker_anonymous_icon_154428.ico",
       "SourceId": "STTP_projektas",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Storage\\Personal\\GitHub\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\wwwroot\\",
+      "ContentRoot": "C:\\Git\\STPP_Projektas\\STTP_projektas\\STTP_projektas\\wwwroot\\",
       "BasePath": "_content/STTP_projektas",
       "RelativePath": "hacker_anonymous_icon_154428.ico",
       "AssetKind": "All",
