@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using STTP_projektas.Data.Entities;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace STTP_projektas.Auth;
@@ -38,12 +39,13 @@ public class JwtTokenService
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-    public string CreateRefreshToken(string userName, string userId, DateTime expires)
+    public string CreateRefreshToken(Guid sessionID, string userId, DateTime expires)
     {
         var authClaims = new List<Claim>()
         {
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Sub, userId)
+            new Claim(JwtRegisteredClaimNames.Sub, userId),
+            new("SessionId", sessionID.ToString())
         };
 
         var token = new JwtSecurityToken(

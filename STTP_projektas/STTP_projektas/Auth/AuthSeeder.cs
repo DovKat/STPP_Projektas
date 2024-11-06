@@ -44,10 +44,18 @@ public class AuthSeeder
         if(existAdminUser == null)
         {
             var createUserResult = await _userManager.CreateAsync(newAdminUser, "2Uy4Fo4mW2PTaAH8gyFB");
-            if(createUserResult.Succeeded)
-                await _userManager.AddToRolesAsync(newAdminUser, ForumRoles.All);
-
-
+            if (createUserResult.Succeeded)
+            {
+                var addToRolesResult = await _userManager.AddToRolesAsync(newAdminUser, ForumRoles.All);
+                if (!addToRolesResult.Succeeded)
+                {
+                    Console.WriteLine($"Failed to add roles to admin: {string.Join(", ", addToRolesResult.Errors.Select(e => e.Description))}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Error creating admin user: {string.Join(", ", createUserResult.Errors.Select(e => e.Description))}");
+            }
         }
     }
 }

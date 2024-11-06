@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,6 +27,9 @@
 
     <ItemGroup>
       <Content Remove="wwwroot\swagger\custom-index.html" />
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
       <EmbeddedResource Include="wwwroot\swagger\custom-index.html" />
       <Content Remove="wwwroot\swagger\style.css" />
       <EmbeddedResource Include="wwwroot\swagger\style.css" />

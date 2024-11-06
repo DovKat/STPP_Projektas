@@ -1,6 +1,10 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using STTP_projektas.Auth.Model;
 using STTP_projektas.Data;
 using STTP_projektas.Data.DatabaseObjects;
 using STTP_projektas.Data.Entities;
@@ -33,9 +37,9 @@ public static class Endpoints
         .Produces<ForumDto>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        forumsGroups.MapPost("/forums", async (CreateForumDto dto, SttpDbContext dbContext) =>
+        forumsGroups.MapPost("/forums", [Authorize(Roles = ForumRoles.ForumUser)]async (CreateForumDto dto, SttpDbContext dbContext, HttpContext httpContext) =>
         {
-            var forum = new Forum{Title = dto.Title, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = ""};
+            var forum = new Forum{Title = dto.Title, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)};
             dbContext.Forums.Add(forum);
             await dbContext.SaveChangesAsync();
 
@@ -46,14 +50,18 @@ public static class Endpoints
         .Produces<ForumDto>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status422UnprocessableEntity);
 
-        forumsGroups.MapPut("/forums/{forumId}", async (int forumId, UpdatedForumDto dto, SttpDbContext dbContext) =>
+        forumsGroups.MapPut("/forums/{forumId}", [Authorize]async (int forumId, UpdatedForumDto dto, SttpDbContext dbContext,  HttpContext httpContext) =>
             {
                 var forum = await dbContext.Forums.FindAsync(forumId);
                 if (forum == null)
                 {
                     return Results.NotFound();
                 }
-
+                if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+                    httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != forum.UserId)
+                {
+                    return Results.Forbid(); //.NotFound();
+                }
                 forum.Description = dto.description;
 
                 dbContext.Forums.Update(forum);
@@ -69,14 +77,18 @@ public static class Endpoints
             .Produces(StatusCodes.Status404NotFound);
 
 
-        forumsGroups.MapDelete("/forums/{forumId}", async (int forumId, SttpDbContext dbContext) =>
+        forumsGroups.MapDelete("/forums/{forumId}", [Authorize]async (int forumId, SttpDbContext dbContext,  HttpContext httpContext) =>
         {
             var forum = await dbContext.Forums.FindAsync(forumId);
             if (forum == null)
             {
                 return Results.NotFound();
             }
-    
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+                httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != forum.UserId)
+            {
+                return Results.Forbid(); //.NotFound();
+            }
             dbContext.Forums.Remove(forum);
             await dbContext.SaveChangesAsync();
     
@@ -119,31 +131,36 @@ public static class Endpoints
         .Produces<PostDto>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        postsGroups.MapPost("/posts", async (int forumId, CreatePostDto dto, SttpDbContext dbContext) => 
+        postsGroups.MapPost("/posts", [Authorize(Roles = ForumRoles.ForumUser)]async (int forumId, CreatePostDto dto, SttpDbContext dbContext, HttpContext httpContext) => 
             { 
                 var forum = await dbContext.Forums.FindAsync(forumId);
                 if (forum == null)
                 {
                     return Results.NotFound();
                 }
-            var post = new Post{Title = dto.Title, ForumId = forumId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = ""};
-            dbContext.Posts.Add(post);
+                var post = new Post{Title = dto.Title, ForumId = forumId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) };
+                dbContext.Posts.Add(post);
 
-            await dbContext.SaveChangesAsync();
-
-            return TypedResults.Created($"api/forums/{forumId}/posts/{post.Id}", post.ToDto());
-        })
+                await dbContext.SaveChangesAsync(); 
+                return TypedResults.Created($"api/forums/{forumId}/posts/{post.Id}", post.ToDto());
+            })
         .WithName("CreatePost")
         .WithMetadata(new SwaggerOperationAttribute("Create a new post", "Creates a new post with the given data and returns the created post."))
         .Produces<PostDto>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status422UnprocessableEntity);
 
-        postsGroups.MapPut("/posts/{postId}", async (int forumId, UpdatedPostDto dto, int postId, SttpDbContext dbContext) =>
+        postsGroups.MapPut("/posts/{postId}",  [Authorize]async (int forumId, UpdatedPostDto dto, int postId, SttpDbContext dbContext, HttpContext httpContext) =>
         {
             var post = await dbContext.Posts.FindAsync(postId);
             if (post == null || post.ForumId != forumId )
             {
                 return Results.NotFound();
+            }
+
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+                httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != post.UserId)
+            {
+                return Results.Forbid(); //.NotFound();
             }
 
             post.Description = dto.description;
@@ -160,14 +177,18 @@ public static class Endpoints
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status422UnprocessableEntity);
 
-        postsGroups.MapDelete("/posts/{postId}", async (int forumId, int postId, SttpDbContext dbContext) =>
+        postsGroups.MapDelete("/posts/{postId}", [Authorize]async (int forumId, int postId, SttpDbContext dbContext, HttpContext httpContext) =>
         {
             var post = await dbContext.Posts.FindAsync(postId);
             if (post == null || post.ForumId != forumId)
             {
                 return Results.NotFound();
             }
-    
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+                httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != post.UserId)
+            {
+                return Results.Forbid(); //.NotFound();
+            }
             dbContext.Posts.Remove(post);
             await dbContext.SaveChangesAsync();
     
@@ -211,14 +232,14 @@ public static class Endpoints
         .Produces<CommentDto>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        commentsGroups.MapPost("/comments/", async (int postId, int forumId, CreateCommentDto dto, SttpDbContext dbContext) => 
+        commentsGroups.MapPost("/comments/", [Authorize(Roles = ForumRoles.ForumUser)]async (int postId, int forumId, CreateCommentDto dto, SttpDbContext dbContext, HttpContext httpContext) => 
             { 
                 var post = await dbContext.Posts.FindAsync(postId);
                 if (post == null)
                 {
                     return Results.NotFound();
                 }
-            var comment = new Comment{ PostId = postId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = ""};
+            var comment = new Comment{ PostId = postId, Description = dto.Description, CreatedAt = DateTimeOffset.UtcNow, UserId = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub)};
             dbContext.Comments.Add(comment);
 
             await dbContext.SaveChangesAsync();
@@ -230,14 +251,18 @@ public static class Endpoints
         .Produces<CommentDto>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status422UnprocessableEntity);
 
-        commentsGroups.MapPut("/comments/{commentId}", async (int commentId, int forumId, UpdatedCommentDto dto, int postId, SttpDbContext dbContext) =>
+        commentsGroups.MapPut("/comments/{commentId}", [Authorize]async (int commentId, int forumId, UpdatedCommentDto dto, int postId, SttpDbContext dbContext, HttpContext httpContext) =>
         {
             var comment = await dbContext.Comments.FindAsync(commentId);
             if (comment == null || comment.PostId != postId )
             {
                 return Results.NotFound();
             }
-
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+                httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != comment.UserId)
+            {
+                return Results.Forbid(); //.NotFound();
+            }
             comment.Description = dto.description;
 
             dbContext.Comments.Update(comment);
@@ -254,14 +279,18 @@ public static class Endpoints
         .Produces(StatusCodes.Status422UnprocessableEntity)
         ;
 
-        commentsGroups.MapDelete("/comments/{commentId}", async (int commentId, int forumId, int postId, SttpDbContext dbContext) =>
+        commentsGroups.MapDelete("/comments/{commentId}", [Authorize]async (int commentId, int forumId, int postId, SttpDbContext dbContext, HttpContext httpContext) =>
         {
             var comment = await dbContext.Comments.FindAsync(commentId);
             if (comment == null || comment.PostId != postId)
             {
                 return Results.NotFound();
             }
-    
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+                httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != comment.UserId)
+            {
+                return Results.Forbid(); //.NotFound();
+            }
             dbContext.Comments.Remove(comment);
             await dbContext.SaveChangesAsync();
     

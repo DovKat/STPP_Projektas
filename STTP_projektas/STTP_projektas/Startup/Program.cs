@@ -56,7 +56,14 @@ builder.Services
     .AddSwaggerExamplesFromAssemblyOf<ListCommentDtoExample>()
     .AddSwaggerExamplesFromAssemblyOf<ListPostDtoExample>()
     //Identity
-    .AddIdentity<ForumUser, IdentityRole>()
+    .AddIdentity<ForumUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 6;
+    })
     .AddEntityFrameworkStores<SttpDbContext>()
     .AddDefaultTokenProviders();
     //Authentication
@@ -74,11 +81,12 @@ builder.Services
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]));
     });
     //Authorization
-builder.Services
-    .AddAuthorization() 
-    //seeder
-    .AddScoped<AuthSeeder>()
-    .AddTransient<JwtTokenService>();
+    builder.Services
+        .AddAuthorization()
+        //seeder
+        .AddScoped<AuthSeeder>()
+        .AddTransient<JwtTokenService>()
+        .AddTransient<SessionService>();
 
 var app = builder.Build();
 
