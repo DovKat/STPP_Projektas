@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axiosInstance from '../axios'; // Import the custom axios instance
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await axiosInstance.post('/api/login', { username, password });
+      const response = await axios.post('/api/login', { username, password });
       setAccessToken(response.data.accessToken);
       setUser({ username });
     } catch (error) {
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, email, password) => {
     try {
-      await axiosInstance.post('/api/register', { username, email, password });
+      await axios.post('/api/register', { username, email, password });
       await login(username, password);
     } catch (error) {
       console.error('Registration failed:', error);
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axiosInstance.post('/api/logout');
+      await axios.post('/api/logout');
       setUser(null);
       setAccessToken(null);
     } catch (error) {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const refreshAccessToken = async () => {
     try {
-      const response = await axiosInstance.post('/api/accessToken');
+      const response = await axios.post('/api/accessToken');
       setAccessToken(response.data.accessToken);
     } catch (error) {
       console.error('Failed to refresh access token:', error);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import config from '../config';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -10,7 +10,10 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/login', { username, password });
+        const apiUrl = `${config.apiBaseUrl}/api/login`;
+        const response = await axios.post(apiUrl, { username, password }, {
+          withCredentials: true, // Ensure cookies are sent with the request
+      });
       console.log('Login successful', response.data);
       // On successful login, navigate to the home/dashboard page
       navigate('/home'); // Adjust the redirect path as per your app

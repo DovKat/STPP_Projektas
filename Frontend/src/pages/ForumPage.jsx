@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
-import Forum from '../components/Forum';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import config from '../config'; // Import the base URL config
 
 const ForumPage = () => {
-  const forums = [
-    { id: 1, title: 'General Discussion', description: 'Talk about anything!' },
-    { id: 2, title: 'Tech News', description: 'Latest updates in tech.' },
-  ];
+  const [forums, setForums] = useState([]);
+
+  useEffect(() => {
+    const fetchForums = async () => {
+      try {
+        const response = await axios.get(`${config.apiBaseUrl}/api/forums`);
+        setForums(response.data);
+      } catch (error) {
+        console.error('Error fetching forums', error);
+      }
+    };
+    fetchForums();
+  }, []);
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Forums</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="forum-list">
+      <h2>Forums</h2>
+      <ul>
         {forums.map((forum) => (
-          <Forum
-            key={forum.id}
-            title={forum.title}
-            description={forum.description}
-            onClick={() => alert(`Navigate to Forum ${forum.id}`)}
-          />
+          <li key={forum.id}>
+            <a href={`/forums/${forum.id}`}>{forum.title}</a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

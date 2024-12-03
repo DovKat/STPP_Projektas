@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import config from '../config';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -11,7 +12,8 @@ const RegisterPage = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/register', { username, email, password });
+        const apiUrl = `${config.apiBaseUrl}/api/register`;
+      const response = await axios.post(apiUrl, { username, email, password });
       console.log('Registration successful', response.data);
       // After successful registration, navigate to the login page
       navigate('/login');
