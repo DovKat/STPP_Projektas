@@ -55,10 +55,10 @@ public static class AuthEndpoints
             
             var cookieOptions = new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 SameSite = SameSiteMode.None, 
                 Expires = expiresAt,
-                Secure = false
+                Secure = true
             };
             
             httpContext.Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
@@ -106,10 +106,10 @@ public static class AuthEndpoints
 
             var cookieOptions = new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 SameSite = SameSiteMode.None, 
                 Expires = expiresAt,
-                Secure = false
+                Secure = true
             };
             
             httpContext.Response.Cookies.Append("RefreshToken", newRefreshToken, cookieOptions);
