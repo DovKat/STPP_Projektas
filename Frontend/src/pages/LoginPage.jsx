@@ -1,33 +1,55 @@
-import React, { useContext, useState } from 'react';
-import AuthContext from '../context/AuthContext';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginPage = () => {
-  const { login } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    await login(username, password);
+    try {
+      const response = await axios.post('http://localhost:5000/api/login', { username, password });
+      console.log('Login successful', response.data);
+      // On successful login, navigate to the home/dashboard page
+      navigate('/home'); // Adjust the redirect path as per your app
+    } catch (error) {
+      console.error('Login failed', error);
+      alert('Login failed. Please check your credentials.');
+    }
+  };
+
+  const goToRegister = () => {
+    navigate('/register');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="login-page">
       <h2>Login</h2>
-      <input 
-        type="text" 
-        placeholder="Username" 
-        value={username} 
-        onChange={(e) => setUsername(e.target.value)} 
-      />
-      <input 
-        type="password" 
-        placeholder="Password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-      />
-      <button type="submit">Login</button>
-    </form>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Username</label>
+          <input 
+            type="text" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+            required 
+          />
+        </div>
+        <div>
+          <label>Password</label>
+          <input 
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <button onClick={goToRegister}>Don't have an account? Register here</button>
+    </div>
   );
 };
 

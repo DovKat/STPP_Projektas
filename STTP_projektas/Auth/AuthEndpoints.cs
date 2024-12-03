@@ -58,6 +58,7 @@ public static class AuthEndpoints
                 HttpOnly = true,
                 SameSite = SameSiteMode.Lax,
                 Expires = expiresAt,
+                Secure = true
                 //Secure = true
             };
             
@@ -109,6 +110,7 @@ public static class AuthEndpoints
                 HttpOnly = true,
                 SameSite = SameSiteMode.Lax,
                 Expires = expiresAt,
+                Secure = true
                 //Secure = true
             };
             
