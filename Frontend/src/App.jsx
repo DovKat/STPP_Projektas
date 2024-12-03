@@ -6,7 +6,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ForumPage from './pages/ForumPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
+import PostListPage from './pages/PostListPage';
+import PostDetailsPage from './pages/PostDetailsPage';
+import ContactPage from './pages/ContactPage'; 
+import HomePage from './pages/HomePage';
 function App() {
   return (
     <AuthProvider>
@@ -24,6 +27,38 @@ function App() {
                 <ForumPage />
               </ProtectedRoute>
             } 
+          />
+          <Route 
+            path="/forums/:forumId" 
+            element={
+            <ProtectedRoute>
+                <PostListPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/forums/:forumId/posts/:postId" 
+            element={
+              <ProtectedRoute>
+                <PostDetailsPage /> 
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <HomePage /> 
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/contact"
+            element={
+              <ProtectedRoute>
+                <ContactPage /> 
+              </ProtectedRoute>
+            }
           />
         </Routes>
         </main>

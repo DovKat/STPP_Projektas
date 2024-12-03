@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -57,7 +58,7 @@ public static class Endpoints
                 {
                     return Results.NotFound();
                 }
-                if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+                if (!httpContext.User.IsInRole(ForumRoles.Admin) &&
                     httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != forum.UserId)
                 {
                     return Results.Forbid(); //.NotFound();
@@ -84,7 +85,7 @@ public static class Endpoints
             {
                 return Results.NotFound();
             }
-            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) &&
                 httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != forum.UserId)
             {
                 return Results.Forbid(); //.NotFound();
@@ -157,7 +158,7 @@ public static class Endpoints
                 return Results.NotFound();
             }
 
-            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) &&
                 httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != post.UserId)
             {
                 return Results.Forbid(); //.NotFound();
@@ -184,7 +185,7 @@ public static class Endpoints
             {
                 return Results.NotFound();
             }
-            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) &&
                 httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != post.UserId)
             {
                 return Results.Forbid(); //.NotFound();
@@ -258,7 +259,7 @@ public static class Endpoints
             {
                 return Results.NotFound();
             }
-            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) &&
                 httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != comment.UserId)
             {
                 return Results.Forbid(); //.NotFound();
@@ -286,7 +287,7 @@ public static class Endpoints
             {
                 return Results.NotFound();
             }
-            if (!httpContext.User.IsInRole(ForumRoles.Admin) ||
+            if (!httpContext.User.IsInRole(ForumRoles.Admin) &&
                 httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub) != comment.UserId)
             {
                 return Results.Forbid(); //.NotFound();
