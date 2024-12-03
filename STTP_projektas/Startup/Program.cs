@@ -31,7 +31,8 @@ builder.Services
         options.AddPolicy("AllowFrontend",
             builder => builder.WithOrigins("http://localhost:3000") // Frontend URL
                 .AllowAnyHeader()
-                .AllowAnyMethod());
+                .AllowAnyMethod()
+                .AllowCredentials());
     })
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(c =>
