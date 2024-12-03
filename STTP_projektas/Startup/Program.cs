@@ -26,7 +26,13 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath); // Ensur
 builder.Configuration.AddJsonFile("./startup/configs/appsettings.json", optional: false, reloadOnChange: true); // Explicitly load the config file
 
 builder.Services
-
+    .AddCors(options =>
+    {
+        options.AddPolicy("AllowFrontend",
+            builder => builder.WithOrigins("http://localhost:3000") // Frontend URL
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+    })
     .AddEndpointsApiExplorer()
     .AddSwaggerGen(c =>
     {
@@ -125,7 +131,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseHttpsRedirection();
-
+app.UseCors("AllowFrontend");
 app.AddPostApi();
 app.AddForumApi();
 app.AddAuthApi();
