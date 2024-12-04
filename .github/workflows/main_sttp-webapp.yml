@@ -67,4 +67,4 @@ jobs:
         with:
           app-name: 'sttp-webapp'
           slot-name: 'Production'
-          package: './'  # Ensure you deploy the content of the 'build' folder, not the 'Frontend' folder itself
+          package: .
