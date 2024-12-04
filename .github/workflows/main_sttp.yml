@@ -95,7 +95,7 @@ jobs:
           app-name: 'sttp-api'  # Replace with your actual Azure app name for API
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_API }}  # Add your API publish profile secret
-          package: './api-output'  # Ensure this path points to the correct location
+          package: './'  # Ensure this path points to the correct location
 
       - name: Deploy Frontend to Azure Web App
         id: deploy-frontend
