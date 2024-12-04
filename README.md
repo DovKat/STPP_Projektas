@@ -16,7 +16,23 @@ Sistema leidžia naudotojams bendrauti administratorių moderuojamose forumuose 
 <hr/>
 <h4>Funkciniai reikalavimai</h4>
 
-<p>⚝ Naudotojas forume gali skelbti įrašus ar ištrinti savus, skaityti ar komentuoti ant kitų įrašųS</p>
+<p>⚝ Naudotojas gali sukurti forumus, forume gali skelbti įrašus ar ištrinti savus, skaityti ar komentuoti ant kitų įrašųS</p>
 <p>⚝ Administratorius gali sukurti forumus, trinti įrašus ir komentarus</p>
 <p>⚝ Svečias gali prisijungti</p>
 <hr/>
+
+<h4>Sistemos architektūra (deployment diagrama UML)</h4>
+
+
+<h4>Naudotojo sąsajos projektas </h4>
+
+Langu eskizai ir screenshotai
+
+<h4>API specifikacija</h4>
+
+Spec.yaml fialas
+Galimi atsako kodai, panaudojimo pavyzdziai
+
+<h4>Išvados</h4>
+
+PATEIKT WIKI ARBA README
