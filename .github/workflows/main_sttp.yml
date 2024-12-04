@@ -45,12 +45,12 @@ jobs:
           node-version: '16'  # or the version you are using
 
       - name: Install dependencies for frontend
-        working-directory: Frontend
+        working-directory: frontend
         run: |
           npm install
 
       - name: Build the frontend
-        working-directory: Frontend
+        working-directory: frontend
         run: |
           npm run build
 
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frontend-artifact
-          path: Frontend/build  # Adjust the build folder path if necessary
+          path: frontend/build  # Adjust the build folder path if necessary
 
   deploy:
     runs-on: windows-latest
@@ -83,17 +83,17 @@ jobs:
         id: deploy-api
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'sttp-api'  # Adjust this to your API Azure Web App name
+          app-name: 'sttp'  # Your Azure Web App name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_API }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
           package: './api-output'  # Path to the published API
 
-      # Deploy the frontend (Static Web App)
-      - name: Deploy Frontend to Azure Static Web App
+      # Deploy Frontend (React App)
+      - name: Deploy Frontend to Azure Web App
         id: deploy-frontend
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'sttp-frontend'  # Adjust this to your frontend Azure Web App name
+          app-name: 'sttp'  # Your Azure Web App name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}
-          package: './Frontend/build'  # Path to the frontend build folder
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
+          package: './frontend/build'  # Path to the frontend build folder
