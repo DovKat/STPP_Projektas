@@ -92,7 +92,7 @@ jobs:
         with:
           app-name: 'sttp-api'  # Replace with your actual Azure app name for API
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}  # Add your API publish profile secret
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}  # Add your API publish profile secret
           package: './'  # Ensure this path points to the correct location
 
       - name: Deploy Frontend to Azure Web App
@@ -101,5 +101,5 @@ jobs:
         with:
           app-name: 'sttp-frontend'  # Replace with your actual Azure app name for the frontend
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}  # Add your frontend publish profile secret
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}  # Add your frontend publish profile secret
           package: './Frontend/build'  # Ensure this is correct, pointing to the frontend build folder
