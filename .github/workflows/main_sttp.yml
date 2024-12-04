@@ -85,9 +85,6 @@ jobs:
       - name: List contents of the root directory
         run: dir .  # Check if api-output folder is correctly downloaded
 
-      - name: List contents of the API output folder
-        run: dir ./api-output  # Ensure API output folder exists
-
       - name: Deploy API to Azure Web App
         id: deploy-api
         uses: azure/webapps-deploy@v2
