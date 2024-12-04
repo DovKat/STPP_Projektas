@@ -11,79 +11,50 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Set up .NET Core
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      # Restore dependencies and build the API project
-      - name: Restore dependencies
-        run: dotnet restore ./STTP_projektas/STTP_projektas.csproj
-
-      # Build the API project
       - name: Build the API project
-        run: dotnet build ./STTP_projektas/STTP_projektas.csproj -c Release --output ${{ github.workspace }}/api-output
+        run: dotnet build ./STTP_projektas/STTP_projektas.csproj --configuration Release
 
-      # Publish the API project
       - name: Publish the API project
-        run: dotnet publish ./STTP_projektas/STTP_projektas.csproj -c Release -o ${{ github.workspace }}/api-output
+        run: dotnet publish ./STTP_projektas/STTP_projektas.csproj -c Release -o ./api-output
 
-      # Debug output folder structure
-      - name: Debug folder structure after publishing
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Listing directory contents after publish..."
-          dir ${{ github.workspace }}
-          if (Test-Path -Path ${{ github.workspace }}/api-output) {
-            echo "api-output folder exists."
-          } else {
-            echo "api-output folder does NOT exist."
-          }
-
-      # List contents of the API output folder
       - name: List contents of the API output folder
-        run: |
-          echo "Listing contents of api-output folder"
-          dir ${{ github.workspace }}/api-output
+        run: dir ./api-output
 
-      # Upload API artifact for deployment
       - name: Upload API artifact for deployment
         uses: actions/upload-artifact@v3
         with:
           name: api-artifact
-          path: ${{ github.workspace }}/api-output
+          path: ./api-output
 
   build-frontend:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Adjust to the version you're using
+          node-version: '16'
 
-      # Install dependencies for frontend
       - name: Install dependencies for frontend
         working-directory: Frontend
         run: npm install
 
-      # Build the frontend
       - name: Build the frontend
         working-directory: Frontend
         run: npm run build
 
-      # Upload frontend build artifact
       - name: Upload frontend build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -98,19 +69,32 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      # Download API artifact from build job
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download API artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: api-artifact
 
-      # Download frontend artifact from build job
       - name: Download frontend artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: frontend-artifact
 
-      # Deploy the API (ASP.NET Core)
+      # Check the current working directory to understand where files are located
+      - name: Print working directory
+        run: pwd
+
+      # List the contents of the directory after downloading artifacts
+      - name: List contents of the directory
+        run: dir .
+
+      # List the contents of the API output folder in the deploy job
+      - name: List contents of the API output folder in deploy job
+        run: dir ./api-output
+
+      # Deploy API to Azure Web App
       - name: Deploy API to Azure Web App
         id: deploy-api
         uses: azure/webapps-deploy@v2
@@ -118,9 +102,9 @@ jobs:
           app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: ${{ github.workspace }}/api-output  # Adjust path after verifying
+          package: './api-output'  # Ensure this path points to the correct location
 
-      # Deploy Frontend (React App)
+      # Deploy Frontend to Azure Web App
       - name: Deploy Frontend to Azure Web App
         id: deploy-frontend
         uses: azure/webapps-deploy@v2
@@ -128,4 +112,4 @@ jobs:
           app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: Frontend/build  # Make sure the frontend build folder is correct
+          package: './Frontend/build'  # Ensure this is correct, pointing to the frontend build folder
