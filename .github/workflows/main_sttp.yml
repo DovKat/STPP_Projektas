@@ -50,7 +50,7 @@ jobs:
           npm install
 
       - name: Build the frontend
-        working-directory: frontend
+        working-directory: Frontend
         run: |
           npm run build
 
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frontend-artifact
-          path: frontend/build  # Adjust the build folder path if necessary
+          path: Frontend/build  # Adjust the build folder path if necessary
 
   deploy:
     runs-on: windows-latest
@@ -96,4 +96,4 @@ jobs:
           app-name: 'sttp-frontend'  # Adjust this to your frontend Azure Web App name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}
-          package: './frontend/build'  # Path to the frontend build folder
+          package: './Frontend/build'  # Path to the frontend build folder
