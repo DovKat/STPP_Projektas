@@ -67,4 +67,4 @@ jobs:
         with:
           app-name: 'sttp-webapp'
           slot-name: 'Production'
-          package: ./Frontend
+          package: ./Frontend/build
