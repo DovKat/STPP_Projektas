@@ -102,4 +102,4 @@ jobs:
           app-name: 'sttp'  # Use the same Web App for Frontend
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: './Frontend/build'  # Path for the frontend build
+          package: './Frontend'  # Path for the frontend build
