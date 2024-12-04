@@ -86,17 +86,19 @@ jobs:
         id: deploy-api
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'sttp'  # Your Azure Web App name
+          app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: './api-output'  # Path to the published API output folder
+          package: './api-output'  # Adjust if necessary, after verifying the correct folder
+
 
       # Deploy Frontend (React App)
       - name: Deploy Frontend to Azure Web App
         id: deploy-frontend
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'sttp'  # Your Azure Web App name
+          app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: './Frontend/build'  # Path to the frontend build folder
+          package: './Frontend/build'  # Make sure the frontend build folder is correct
+
