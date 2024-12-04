@@ -25,7 +25,7 @@ jobs:
           npm run build  # Build the React app to generate production-ready files
 
       - name: List contents of the Frontend folder
-        working-directory: ./
+        working-directory: ./Frontend
         run: |
           dir  # List the contents of the Frontend directory to verify the build output
 
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: ./  # Upload the build folder after running 'npm run build'
+          path: ./Frontend  # Upload the build folder after running 'npm run build'
 
   deploy:
     runs-on: ubuntu-latest
@@ -67,4 +67,4 @@ jobs:
         with:
           app-name: 'sttp-webapp'
           slot-name: 'Production'
-          package: .
+          package: ./Frontend
