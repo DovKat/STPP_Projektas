@@ -9,37 +9,50 @@ on:
 jobs:
   build-api:
     runs-on: windows-latest
+
     steps:
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Set up .NET Core (API)
+      # Set up .NET Core
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '8.x'
           include-prerelease: true
 
+      # Restore dependencies and build the API project
+      - name: Restore dependencies
+        run: dotnet restore ./STTP_projektas/STTP_projektas.csproj
+
+      # Build the API project
       - name: Build the API project
-        run: dotnet build --configuration Release --output ${{ github.workspace }}/api-output
+        run: dotnet build ./STTP_projektas/STTP_projektas.csproj -c Release --output ${{ github.workspace }}/api-output
 
+      # Publish the API project
       - name: Publish the API project
-        run: |
-          echo "Running dotnet publish..."
-          dotnet publish ./STTP_projektas/STTP_projektas.csproj -c Release -o ${{ github.workspace }}/api-output
-          echo "Publish completed."
+        run: dotnet publish ./STTP_projektas/STTP_projektas.csproj -c Release -o ${{ github.workspace }}/api-output
 
-      # List the contents of the publish folder to verify
-      - name: Verify the publish folder
+      # Debug output folder structure
+      - name: Debug folder structure after publishing
         run: |
           echo "Current directory: $(pwd)"
-          echo "Listing contents of the api-output folder..."
-          if (Test-Path -Path ${{ github.workspace }}/api-output) { 
-            dir ${{ github.workspace }}/api-output
+          echo "Listing directory contents after publish..."
+          dir ${{ github.workspace }}
+          if (Test-Path -Path ${{ github.workspace }}/api-output) {
+            echo "api-output folder exists."
           } else {
-            echo "Directory api-output does not exist."
+            echo "api-output folder does NOT exist."
           }
 
+      # List contents of the API output folder
+      - name: List contents of the API output folder
+        run: |
+          echo "Listing contents of api-output folder"
+          dir ${{ github.workspace }}/api-output
+
+      # Upload API artifact for deployment
       - name: Upload API artifact for deployment
         uses: actions/upload-artifact@v3
         with:
@@ -48,36 +61,34 @@ jobs:
 
   build-frontend:
     runs-on: ubuntu-latest
+
     steps:
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Set up Node.js (Frontend)
+      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # or the version you are using
+          node-version: '16'  # Adjust to the version you're using
 
+      # Install dependencies for frontend
       - name: Install dependencies for frontend
         working-directory: Frontend
-        run: |
-          npm install
+        run: npm install
 
+      # Build the frontend
       - name: Build the frontend
         working-directory: Frontend
-        run: |
-          npm run build
+        run: npm run build
 
-      - name: List contents of the frontend build folder to verify
-        run: |
-          echo "Listing contents of the frontend build folder"
-          ls -R Frontend/build  # List all files in the build directory recursively
-
+      # Upload frontend build artifact
       - name: Upload frontend build artifact
         uses: actions/upload-artifact@v3
         with:
           name: frontend-artifact
-          path: Frontend/build  # Adjust the build folder path if necessary
+          path: Frontend/build
 
   deploy:
     runs-on: windows-latest
@@ -87,26 +98,17 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      # Download API artifact from build job
       - name: Download API artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: api-artifact
 
+      # Download frontend artifact from build job
       - name: Download frontend artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: frontend-artifact
-
-      # List contents of both API and Frontend directories before deployment
-      - name: List contents of API output folder
-        run: |
-          echo "Listing contents of the API output folder"
-          dir ${{ github.workspace }}/api-output  # List the files in the API output folder
-
-      - name: List contents of Frontend build folder
-        run: |
-          echo "Listing contents of the Frontend build folder"
-          dir ${{ github.workspace }}/Frontend/build  # List the files in the Frontend build folder
 
       # Deploy the API (ASP.NET Core)
       - name: Deploy API to Azure Web App
@@ -116,7 +118,7 @@ jobs:
           app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: ${{ github.workspace }}/api-output  # Using the absolute path to the folder
+          package: ${{ github.workspace }}/api-output  # Adjust path after verifying
 
       # Deploy Frontend (React App)
       - name: Deploy Frontend to Azure Web App
@@ -126,4 +128,4 @@ jobs:
           app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: ${{ github.workspace }}/Frontend/build  # Ensure the frontend build folder is correct
+          package: Frontend/build  # Make sure the frontend build folder is correct
