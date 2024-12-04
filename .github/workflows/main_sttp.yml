@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Build and deploy the API (ASP.NET Core backend)
+      # Set up .NET Core (API)
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -21,19 +21,23 @@ jobs:
           include-prerelease: true
 
       - name: Build the API project
-        run: dotnet build --configuration Release --output ./api-output
+        run: dotnet build --configuration Release --output ${{ github.workspace }}/api-output
 
       - name: Publish the API project
-        run: dotnet publish -c Release -o ./api-output
+        run: dotnet publish -c Release -o ${{ github.workspace }}/api-output
 
+      # List the contents of the publish folder to verify the files exist
       - name: List contents of the publish folder to verify
-        run: dir ./api-output  # List the contents of the output directory to verify the package exists
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Listing contents of the api-output folder"
+          dir ${{ github.workspace }}/api-output  # Listing the output folder using an absolute path
 
       - name: Upload API artifact for deployment
         uses: actions/upload-artifact@v3
         with:
           name: api-artifact
-          path: ./api-output
+          path: ${{ github.workspace }}/api-output
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -90,12 +94,12 @@ jobs:
       - name: List contents of API output folder
         run: |
           echo "Listing contents of the API output folder"
-          dir ./api-output  # List the files in the API output folder
+          dir ${{ github.workspace }}/api-output  # List the files in the API output folder
 
       - name: List contents of Frontend build folder
         run: |
           echo "Listing contents of the Frontend build folder"
-          dir ./Frontend/build  # List the files in the Frontend build folder
+          dir ${{ github.workspace }}/Frontend/build  # List the files in the Frontend build folder
 
       # Deploy the API (ASP.NET Core)
       - name: Deploy API to Azure Web App
@@ -105,7 +109,7 @@ jobs:
           app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: './api-output'  # Adjust if necessary, after verifying the correct folder
+          package: ${{ github.workspace }}/api-output  # Using the absolute path to the folder
 
       # Deploy Frontend (React App)
       - name: Deploy Frontend to Azure Web App
@@ -115,4 +119,4 @@ jobs:
           app-name: 'sttp'  # Replace with your actual Azure app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: './Frontend/build'  # Make sure the frontend build folder is correct
+          package: ${{ github.workspace }}/Frontend/build  # Ensure the frontend build folder is correct
