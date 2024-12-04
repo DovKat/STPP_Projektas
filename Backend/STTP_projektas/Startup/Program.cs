@@ -29,7 +29,7 @@ builder.Services
     .AddCors(options =>
     {
         options.AddPolicy("AllowFrontend",
-            builder => builder.WithOrigins("sttp-webapp-g8hud2hue3arc4ds.westeurope-01.azurewebsites.net") // Frontend URL
+            builder => builder.WithOrigins("https://thankful-pebble-0b70dd403.4.azurestaticapps.net") // Frontend URL
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials());
