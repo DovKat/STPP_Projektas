@@ -5,6 +5,7 @@ import config from '../config'; // Import the base URL config
 import './PostDetailsPage.css'; // Import the CSS for styling
 import { useAuth } from '../context/AuthContext';
 import dayjs from 'dayjs';
+
 const parseDate = (dateString) => {
   try {
     return dayjs(dateString).format('MMMM D, YYYY h:mm A');
@@ -20,7 +21,10 @@ const PostDetailsPage = () => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('');
   const [showCreateCommentModal, setShowCreateCommentModal] = useState(false);
+  const [editingComment, setEditingComment] = useState(null);  // New state for editing comment
+  const [editCommentText, setEditCommentText] = useState('');  // State for edited comment text
   const { accessToken, waitForAccessToken, loading } = useAuth();
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -57,18 +61,51 @@ const PostDetailsPage = () => {
   const handleDeleteComment = async (commentId) => {
     try {
       const token = await waitForAccessToken();
-      await axios.delete(`${config.apiBaseUrl}/api/comments/${commentId}`,
+      await axios.delete(`${config.apiBaseUrl}/api/forums/${forumId}/posts/${postId}/comments/${commentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setComments(comments.filter((comment) => comment.id !== commentId));
     } catch (error) {
-      console.error('Error deleting comment', error);
+      if (error.response && error.response.status === 403) {
+        alert('Unauthorized access');
+      }
+      else
+      {
+        console.error('Error deleting comment', error);
+      }
     }
   };
 
   const handleEditComment = (commentId) => {
-    // Logic for editing a comment (could show a modal or inline editing)
-    console.log(`Editing comment: ${commentId}`);
+    // Find the comment to edit and open the modal
+    const commentToEdit = comments.find(comment => comment.id === commentId);
+    setEditingComment(commentToEdit);
+    setEditCommentText(commentToEdit.description);  // Set the current comment text for editing
+  };
+
+  const handleEditCommentSave = async () => {
+    try {
+      const token = await waitForAccessToken();
+      const response = await axios.put(
+        `${config.apiBaseUrl}/api/forums/${forumId}/posts/${postId}/comments/${editingComment.id}`,
+        { description: editCommentText },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      // Update the comments state with the updated comment
+      setComments(comments.map((comment) =>
+        comment.id === editingComment.id ? { ...comment, description: editCommentText } : comment
+      ));
+      setEditingComment(null); // Close the edit modal
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        alert('Unauthorized access');
+      }
+      console.error('Error updating comment', error);
+    }
+  };
+
+  const handleEditCommentCancel = () => {
+    setEditingComment(null); // Close the edit modal without saving
   };
 
   return (
@@ -123,6 +160,24 @@ const PostDetailsPage = () => {
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+          )}
+
+          {/* Edit comment modal */}
+          {editingComment && (
+            <div className="modal">
+              <div className="modal-content">
+                <h4>Edit Comment</h4>
+                <textarea
+                  value={editCommentText}
+                  onChange={(e) => setEditCommentText(e.target.value)}
+                  required
+                />
+                <div className="modal-actions">
+                  <button onClick={handleEditCommentSave}>Save</button>
+                  <button onClick={handleEditCommentCancel}>Cancel</button>
+                </div>
               </div>
             </div>
           )}

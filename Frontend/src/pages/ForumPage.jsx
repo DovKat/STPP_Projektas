@@ -49,7 +49,11 @@ const ForumPage = () => {
       });
       setForums(forums.filter((forum) => forum.id !== forumId));
     } catch (error) {
-      console.error('Error deleting forum:', error);
+      if (error.response && error.response.status === 403) {
+        alert('Unauthorized access');
+      } else {
+        console.error('Error deleting forum:', error);
+      }
     }
   };
 
@@ -68,7 +72,11 @@ const ForumPage = () => {
       ));
       closeEditModal();
     } catch (error) {
-      console.error('Error saving edits:', error);
+      if (error.response && error.response.status === 403) {
+        alert('Unauthorized access');
+      } else {
+        console.error('Error saving edits:', error);
+      }
     }
   };
 

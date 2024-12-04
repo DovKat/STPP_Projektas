@@ -1,71 +1,109 @@
-/* Navbar.css */
-
+/* General navbar styling */
 .navbar {
-    background-color: black;
-    color: white;
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid white;
-    position: sticky;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    margin: 0; /* Remove any margin */
-  }
-  
-  .menu {
-    list-style: none;
-    padding: 0;
-    margin: 0; /* No margin around the menu */
-    display: flex;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+/* Styling for the menu links */
+.nav-item-link {
+  color: aliceblue;
+}
+
+/* Hamburger menu button (visible only on mobile) */
+.menu-toggle {
+  display: none; /* Will be displayed only on mobile */
+}
+
+/* Logout button styling */
+.logout-button {
+  padding: 5px 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Menu items */
+.menu {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+/* Auth section styling */
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Ensures that the username and logout button appear in the same row */
+}
+
+/* On desktop, push the auth section to the right */
+.auth-section.ml-auto {
+  margin-left: auto; /* Push to the right */
+}
+
+/* Username styling */
+.username {
+  font-size: 14px;
+  color: white;
+}
+
+@media (min-width: 769px) {
   .nav-item {
-    margin: 0 5px; /* Reduced margin between items */
-    padding: 5px 10px;
-    border: 1px solid white;
-    border-radius: 5px;
+    color: aliceblue;
+    border: 1px solid aliceblue;
+    padding: 10px; /* Adds spacing between the items */
+    display: inline-block; /* Ensures items are aligned in a row */
   }
-  
-  .nav-item a {
-    text-decoration: none;
-    color: white;
-  }
-  
+
   .auth-section {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  
+
+  .auth-section.ml-auto {
+    margin-left: auto; /* Push to the right */
+  }
+
+  /* Username styling */
   .username {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .logout-button {
-    background-color: red;
+    font-size: 14px;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-right: 10px;
-    cursor: pointer;
   }
-  
-  .logout-button:hover {
-    background-color: darkred;
+}
+
+/* On mobile, display the hamburger menu and adjust auth section layout */
+@media (max-width: 768px) {
+  .nav-item {
+    color: aliceblue;
   }
-  
-  @media (min-width: 768px) {
-    .menu {
-      flex-direction: row;
-    }
-  
-    .menu-toggle {
-      display: none;
-    }
+
+  .menu-toggle {
+    display: block; /* Display hamburger button on mobile */
   }
-  
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .menu.block {
+    display: block; /* Show menu when open */
+  }
+
+  /* Style the auth section to be in a row, just like on desktop */
+  .auth-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px; /* Ensure it's aligned properly under the menu */
+  }
+}

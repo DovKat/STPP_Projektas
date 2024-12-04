@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';  // Correct import of the custom hook
+import './LoginPage.css';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -12,7 +13,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       await login(username, password);  // Call the login function from AuthContext
-      navigate('/home');  // Redirect to home page after login
+      navigate('/');  // Redirect to home page after login
     } catch (error) {
       alert('Login failed. Please check your credentials.');
     }
@@ -22,6 +23,7 @@ const LoginPage = () => {
   };
   return (
     <div className="login-page">
+      <div className="login-form">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
@@ -45,6 +47,7 @@ const LoginPage = () => {
         <button type="submit">Login</button>
       </form>
       <button onClick={goToRegister}>Don't have an account? Register here</button>
+      </div>
     </div>
   );
 };

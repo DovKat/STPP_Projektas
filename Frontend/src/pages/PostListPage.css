@@ -13,9 +13,10 @@
     border-radius: 4px;
   }
   
-  /* Button to create a new post */
   .create-new-button {
     margin-bottom: 20px;
+    max-width: 100px;
+    margin-left: auto;
   }
   
   /* Post item styles */

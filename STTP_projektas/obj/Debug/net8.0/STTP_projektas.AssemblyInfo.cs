@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("STTP_projektas")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3f574f16fd92337e996e90c44af070b56f7b358a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+429ab78e8d4f5032fcdca9ce7f063f9177c2f412")]
 [assembly: System.Reflection.AssemblyProductAttribute("STTP_projektas")]
 [assembly: System.Reflection.AssemblyTitleAttribute("STTP_projektas")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

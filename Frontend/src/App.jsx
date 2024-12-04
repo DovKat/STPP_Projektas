@@ -4,35 +4,49 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForumPage from './pages/ForumPage';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Layout from './components/layout';
 import PostListPage from './pages/PostListPage';
 import PostDetailsPage from './pages/PostDetailsPage';
 import ContactPage from './pages/ContactPage'; 
 import HomePage from './pages/HomePage';
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-      <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow p-4">
         <Routes>
+          {/* Unauthenticated Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          
+          {/* Routes with Layout */}
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute>
+              <Layout>
+                <HomePage />
+              </Layout>
+              </ProtectedRoute>
+            } 
+          />
           <Route 
             path="/forums" 
             element={
               <ProtectedRoute>
-                <ForumPage />
+                <Layout>
+                  <ForumPage />
+                </Layout>
               </ProtectedRoute>
             } 
           />
           <Route 
             path="/forums/:forumId" 
             element={
-            <ProtectedRoute>
-                <PostListPage />
+              <ProtectedRoute>
+                <Layout>
+                  <PostListPage />
+                </Layout>
               </ProtectedRoute>
             } 
           />
@@ -40,15 +54,9 @@ function App() {
             path="/forums/:forumId/posts/:postId" 
             element={
               <ProtectedRoute>
-                <PostDetailsPage /> 
-              </ProtectedRoute>
-            }
-          />
-          <Route 
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <HomePage /> 
+                <Layout>
+                  <PostDetailsPage />
+                </Layout>
               </ProtectedRoute>
             }
           />
@@ -56,17 +64,19 @@ function App() {
             path="/contact"
             element={
               <ProtectedRoute>
-                <ContactPage /> 
+                <Layout>
+                  <ContactPage />
+                </Layout>
               </ProtectedRoute>
             }
           />
+          {/* Fallback 404 */}
+          <Route path="*" element={<Layout><div>404 Page Not Found</div></Layout>} />
         </Routes>
-        </main>
-      <Footer />
-      </div>
       </Router>
     </AuthProvider>
   );
 }
+
 
 export default App;

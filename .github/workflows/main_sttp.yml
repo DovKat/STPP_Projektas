@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - sttp
+name: Build and Deploy API and Frontend to Azure Web App
 
 on:
   push:
@@ -10,48 +7,93 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-api:
     runs-on: windows-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      # Build and deploy the API (ASP.NET Core backend)
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Build the API project
+        run: dotnet build --configuration Release --output ./api-output
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      - name: Publish the API project
+        run: dotnet publish -c Release -o ./api-output
 
-      - name: Upload artifact for deployment job
+      - name: Upload API artifact for deployment
         uses: actions/upload-artifact@v3
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: api-artifact
+          path: ./api-output
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Set up Node.js (Frontend)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # or the version you are using
+
+      - name: Install dependencies for frontend
+        working-directory: frontend
+        run: |
+          npm install
+
+      - name: Build the frontend
+        working-directory: frontend
+        run: |
+          npm run build
+
+      - name: Upload frontend build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-artifact
+          path: frontend/build  # Adjust the build folder path if necessary
 
   deploy:
     runs-on: windows-latest
-    needs: build
+    needs: [build-api, build-frontend]
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
+      - name: Download API artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: .net-app
+          name: api-artifact
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: Download frontend artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend-artifact
+
+      # Deploy the API (ASP.NET Core)
+      - name: Deploy API to Azure Web App
+        id: deploy-api
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'sttp'
+          app-name: 'sttp-api'  # Adjust this to your API Azure Web App name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_API }}
+          package: './api-output'  # Path to the published API
+
+      # Deploy the frontend (Static Web App)
+      - name: Deploy Frontend to Azure Static Web App
+        id: deploy-frontend
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'sttp-frontend'  # Adjust this to your frontend Azure Web App name
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}
+          package: './frontend/build'  # Path to the frontend build folder

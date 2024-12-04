@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap'); /* Example font for footer */
+
+/* Footer styles */
+.footer {
+  font-family: 'Roboto Mono', monospace; /* Apply custom font */
+  background-color: #333; /* Slightly darker gray for distinction */
+  color: #f0f0f0;
+  padding: 16px;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 1rem;
+}
+body, html {
+    margin: 0;
+    height: 100%;
+  }
+  
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+.footer-icons {
+  margin-top: 8px;
+}
+
+.footer-icons img {
+  max-width: 24px;
+  max-height: 24px;
+  transition: transform 0.2s;
+}
+
+.footer-icons img:hover {
+  transform: scale(1.2);
+}
+.link{
+ color: aliceblue;
+}
+
+footer {
+    margin-top: auto;
+  }

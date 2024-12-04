@@ -49,7 +49,11 @@ const PostListPage = () => {
       });
       setPosts(posts.filter((post) => post.id !== postId));
     } catch (error) {
-      console.error('Error deleting post:', error);
+      if (error.response && error.response.status === 403) {
+        alert('Unauthorized access');
+      } else {
+        console.error('Error deleting forum:', error);
+      }
     }
   };
 
@@ -66,7 +70,11 @@ const PostListPage = () => {
       ));
       closeEditModal();
     } catch (error) {
-      console.error('Error saving post edits:', error);
+      if (error.response && error.response.status === 403) {
+        alert('Unauthorized access');
+      } else {
+        console.error('Error deleting forum:', error);
+      }
     }
   };
 

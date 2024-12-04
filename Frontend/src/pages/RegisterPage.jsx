@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
-
+import './LoginPage.css';
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -28,7 +28,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-page">
+    <div className="login-page">
+      <div className="login-form">
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
         <div>
@@ -61,6 +62,7 @@ const RegisterPage = () => {
         <button type="submit">Register</button>
       </form>
       <button onClick={goToLogin}>Already have an account? Login here</button>
+    </div>
     </div>
   );
 };
