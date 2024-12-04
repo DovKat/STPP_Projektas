@@ -25,9 +25,9 @@ jobs:
           npm run build  # Build the React app to generate production-ready files
 
       - name: List contents of the Frontend folder
-        working-directory: ./Frontend
+        working-directory: ./
         run: |
-          dir  # List the contents of the Frontend directory to verify the build output
+          ls  # List the contents of the Frontend directory to verify the build output
 
       - name: Upload build artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -67,4 +67,4 @@ jobs:
         with:
           app-name: 'sttp-webapp'
           slot-name: 'Production'
-          package: ./Frontend/build
+          package: .
