@@ -57,4 +57,4 @@ jobs:
         with:
           app-name: 'sttp-webapp'
           slot-name: 'Production'
-          package: './Frontend'  # Set the correct path to the 'Frontend' folder here
+          package: './'  # Set the correct path to the 'Frontend' folder here
