@@ -24,14 +24,21 @@ jobs:
         run: dotnet build --configuration Release --output ${{ github.workspace }}/api-output
 
       - name: Publish the API project
-        run: dotnet publish -c Release -o ${{ github.workspace }}/api-output
+        run: |
+          echo "Running dotnet publish..."
+          dotnet publish ./STTP_projektas/STTP_projektas.csproj -c Release -o ${{ github.workspace }}/api-output
+          echo "Publish completed."
 
-      # List the contents of the publish folder to verify the files exist
-      - name: List contents of the publish folder to verify
+      # List the contents of the publish folder to verify
+      - name: Verify the publish folder
         run: |
           echo "Current directory: $(pwd)"
-          echo "Listing contents of the api-output folder"
-          dir ${{ github.workspace }}/api-output  # Listing the output folder using an absolute path
+          echo "Listing contents of the api-output folder..."
+          if (Test-Path -Path ${{ github.workspace }}/api-output) { 
+            dir ${{ github.workspace }}/api-output
+          } else {
+            echo "Directory api-output does not exist."
+          }
 
       - name: Upload API artifact for deployment
         uses: actions/upload-artifact@v3
