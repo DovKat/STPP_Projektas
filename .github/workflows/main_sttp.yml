@@ -26,6 +26,9 @@ jobs:
       - name: Publish the API project
         run: dotnet publish -c Release -o ./api-output
 
+      - name: List contents of the publish folder to verify
+        run: dir ./api-output  # List the contents of the output directory to verify the package exists
+
       - name: Upload API artifact for deployment
         uses: actions/upload-artifact@v3
         with:
@@ -86,7 +89,7 @@ jobs:
           app-name: 'sttp'  # Your Azure Web App name
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_191AAA58A35446AE8DF5CEBD3F8D04CC }}
-          package: './api-output'  # Path to the published API
+          package: './api-output'  # Path to the published API output folder
 
       # Deploy Frontend (React App)
       - name: Deploy Frontend to Azure Web App
