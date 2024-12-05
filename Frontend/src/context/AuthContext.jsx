@@ -70,9 +70,6 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setAccessToken(null);
   
-      // Navigate to the login page
-      const navigate = useNavigate(); // Ensure this is used correctly within a component
-      navigate('/login'); 
     } catch (error) {
       console.error('Logout failed:', error);
     }
