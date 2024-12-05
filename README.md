@@ -23,6 +23,7 @@ Sistema leidžia naudotojams bendrauti administratorių moderuojamose forumuose 
 
 <h4>Sistemos architektūra (deployment diagrama UML)</h4>
 
+![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/DeployUML.png)
 
 <h4>Naudotojo sąsajos projektas </h4>
 
