@@ -1,45 +1,3 @@
-# STPP_Projektas
- Saityno taikomųjų programų projektavimo kurso projektas
-<hr/>
-<h3>Pasirinktų technologijų aprašymas</h3>
-<p>⚝ DB sprendimas - PostgreSQL</p>
-<p>⚝ Backend - .NET 8 su Entity Framework DB interakcijai</p>
-<p>⚝ Frontend - React su Node.js</p>
-
-
-<hr/>
-<h3>Sprendžiamo uždavinio aprašymas</h3>
-<hr/>
-<h4>Sistemos paskirtis</h4>
-
-Sistema leidžia naudotojams bendrauti administratorių moderuojamose forumuose įrašų ir komentarų forma
-<hr/>
-<h4>Funkciniai reikalavimai</h4>
-
-<p>⚝ Naudotojas gali sukurti forumus, forume gali skelbti įrašus ar ištrinti savus, skaityti ar komentuoti ant kitų įrašųS</p>
-<p>⚝ Administratorius gali sukurti forumus, trinti įrašus ir komentarus</p>
-<p>⚝ Svečias gali prisijungti</p>
-<hr/>
-
-<h4>Sistemos architektūra (deployment diagrama UML)</h4>
-
-
-<h4>Naudotojo sąsajos projektas </h4>
-
-Langu eskizai ir screenshotai
-
-<h4>Išvados</h4>
-
-Naudojant minimal API ir EF greitai ir paprastai sukurtas API projektas, naudojant Swagger sukurta dokumentacija. API patalpintas kaip Azure web app.
-
-PostgreSQL duombazė sukurta iš kodo modelių su EF pagalba. Ji patalpina AWS RDS.
-
-Frontend projektas sukurtas React frameworku. Patalpintas kaip Azure static web app
-
-<h4>API specifikacija</h4>
-
-API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
-```Swagger.json failas:
 {
   "openapi": "3.0.1",
   "info": {
@@ -86,20 +44,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                     "$ref": "#/components/schemas/CommentDto"
                   }
                 },
-                "example": [
-                  {
-                    "id": 1,
-                    "postId": 5,
-                    "description": "This is the content of the first example Comment.",
-                    "createdOn": "2024-12-05T10:08:34.4348845+00:00"
-                  },
-                  {
-                    "id": 2,
-                    "postId": 6,
-                    "description": "This is the content of the Second example Comment.",
-                    "createdOn": "2024-12-05T10:08:34.4348865+00:00"
-                  }
-                ]
+                "example": [{"id":1,"postId":5,"description":"This is the content of the first example Comment.","createdOn":"2024-12-05T10:08:34.4348845+00:00"},{"id":2,"postId":6,"description":"This is the content of the Second example Comment.","createdOn":"2024-12-05T10:08:34.4348865+00:00"}]
               }
             }
           },
@@ -141,10 +86,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
               "schema": {
                 "$ref": "#/components/schemas/CreateCommentDto"
               },
-              "example": {
-                "postId": 1,
-                "description": "This is an example comment."
-              }
+              "example": {"postId":1,"description":"This is an example comment."}
             }
           },
           "required": true
@@ -157,12 +99,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/CommentDto"
                 },
-                "example": {
-                  "id": 1,
-                  "postId": 3,
-                  "description": "This is an example comment.",
-                  "createdOn": "2024-12-05T10:08:34.437053+00:00"
-                }
+                "example": {"id":1,"postId":3,"description":"This is an example comment.","createdOn":"2024-12-05T10:08:34.437053+00:00"}
               }
             }
           },
@@ -217,12 +154,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/CommentDto"
                 },
-                "example": {
-                  "id": 1,
-                  "postId": 3,
-                  "description": "This is an example comment.",
-                  "createdOn": "2024-12-05T10:08:34.4379673+00:00"
-                }
+                "example": {"id":1,"postId":3,"description":"This is an example comment.","createdOn":"2024-12-05T10:08:34.4379673+00:00"}
               }
             }
           },
@@ -273,9 +205,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
               "schema": {
                 "$ref": "#/components/schemas/UpdatedCommentDto"
               },
-              "example": {
-                "description": "This is an example comment."
-              }
+              "example": {"description":"This is an example comment."}
             }
           },
           "required": true
@@ -288,12 +218,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/CommentDto"
                 },
-                "example": {
-                  "id": 1,
-                  "postId": 3,
-                  "description": "This is an example comment.",
-                  "createdOn": "2024-12-05T10:08:34.4402503+00:00"
-                }
+                "example": {"id":1,"postId":3,"description":"This is an example comment.","createdOn":"2024-12-05T10:08:34.4402503+00:00"}
               }
             }
           },
@@ -370,20 +295,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                     "$ref": "#/components/schemas/ForumDto"
                   }
                 },
-                "example": [
-                  {
-                    "id": 1,
-                    "title": "First Example Forum",
-                    "description": "This is the content of the first example Forum.",
-                    "createdOn": "2024-12-05T10:08:34.4425537+00:00"
-                  },
-                  {
-                    "id": 2,
-                    "title": "Second Example Forum",
-                    "description": "This is the content of the Second example Forum.",
-                    "createdOn": "2024-12-05T10:08:34.4425556+00:00"
-                  }
-                ]
+                "example": [{"id":1,"title":"First Example Forum","description":"This is the content of the first example Forum.","createdOn":"2024-12-05T10:08:34.4425537+00:00"},{"id":2,"title":"Second Example Forum","description":"This is the content of the Second example Forum.","createdOn":"2024-12-05T10:08:34.4425556+00:00"}]
               }
             }
           }
@@ -402,10 +314,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
               "schema": {
                 "$ref": "#/components/schemas/CreateForumDto"
               },
-              "example": {
-                "title": "This is an example forum title",
-                "description": "This is an example forum description"
-              }
+              "example": {"title":"This is an example forum title","description":"This is an example forum description"}
             }
           },
           "required": true
@@ -418,12 +327,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/ForumDto"
                 },
-                "example": {
-                  "id": 5,
-                  "title": "This is an example forum",
-                  "description": "This is an example description",
-                  "createdOn": "2024-12-05T10:08:34.4443095+00:00"
-                }
+                "example": {"id":5,"title":"This is an example forum","description":"This is an example description","createdOn":"2024-12-05T10:08:34.4443095+00:00"}
               }
             }
           },
@@ -460,12 +364,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/ForumDto"
                 },
-                "example": {
-                  "id": 5,
-                  "title": "This is an example forum",
-                  "description": "This is an example description",
-                  "createdOn": "2024-12-05T10:08:34.4449835+00:00"
-                }
+                "example": {"id":5,"title":"This is an example forum","description":"This is an example description","createdOn":"2024-12-05T10:08:34.4449835+00:00"}
               }
             }
           },
@@ -498,9 +397,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
               "schema": {
                 "$ref": "#/components/schemas/UpdatedForumDto"
               },
-              "example": {
-                "description": "This is an example description"
-              }
+              "example": {"description":"This is an example description"}
             }
           },
           "required": true
@@ -513,12 +410,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/ForumDto"
                 },
-                "example": {
-                  "id": 5,
-                  "title": "This is an example forum",
-                  "description": "This is an example description",
-                  "createdOn": "2024-12-05T10:08:34.4461921+00:00"
-                }
+                "example": {"id":5,"title":"This is an example forum","description":"This is an example description","createdOn":"2024-12-05T10:08:34.4461921+00:00"}
               }
             }
           },
@@ -585,22 +477,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                     "$ref": "#/components/schemas/PostDto"
                   }
                 },
-                "example": [
-                  {
-                    "id": 1,
-                    "forum": 2,
-                    "title": "First Example Post",
-                    "description": "This is the content of the first example post.",
-                    "createdOn": "2024-12-05T10:08:34.447773+00:00"
-                  },
-                  {
-                    "id": 2,
-                    "forum": 5,
-                    "title": "Second Example Post",
-                    "description": "This is the content of the Second example post.",
-                    "createdOn": "2024-12-05T10:08:34.4477737+00:00"
-                  }
-                ]
+                "example": [{"id":1,"forum":2,"title":"First Example Post","description":"This is the content of the first example post.","createdOn":"2024-12-05T10:08:34.447773+00:00"},{"id":2,"forum":5,"title":"Second Example Post","description":"This is the content of the Second example post.","createdOn":"2024-12-05T10:08:34.4477737+00:00"}]
               }
             }
           },
@@ -633,11 +510,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
               "schema": {
                 "$ref": "#/components/schemas/CreatePostDto"
               },
-              "example": {
-                "title": "This is an example post",
-                "forumId": 6,
-                "description": "This is an example description"
-              }
+              "example": {"title":"This is an example post","forumId":6,"description":"This is an example description"}
             }
           },
           "required": true
@@ -650,13 +523,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/PostDto"
                 },
-                "example": {
-                  "id": 9,
-                  "forum": 6,
-                  "title": "This is an example post",
-                  "description": "This is an example description",
-                  "createdOn": "2024-12-05T10:08:34.4492297+00:00"
-                }
+                "example": {"id":9,"forum":6,"title":"This is an example post","description":"This is an example description","createdOn":"2024-12-05T10:08:34.4492297+00:00"}
               }
             }
           },
@@ -702,13 +569,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/PostDto"
                 },
-                "example": {
-                  "id": 9,
-                  "forum": 6,
-                  "title": "This is an example post",
-                  "description": "This is an example description",
-                  "createdOn": "2024-12-05T10:08:34.4498611+00:00"
-                }
+                "example": {"id":9,"forum":6,"title":"This is an example post","description":"This is an example description","createdOn":"2024-12-05T10:08:34.4498611+00:00"}
               }
             }
           },
@@ -750,9 +611,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
               "schema": {
                 "$ref": "#/components/schemas/UpdatedPostDto"
               },
-              "example": {
-                "description": "This is an example description"
-              }
+              "example": {"description":"This is an example description"}
             }
           },
           "required": true
@@ -765,13 +624,7 @@ API užklausų ir atsakų pavyzdžiai, metodų aprašymai:
                 "schema": {
                   "$ref": "#/components/schemas/PostDto"
                 },
-                "example": {
-                  "id": 9,
-                  "forum": 6,
-                  "title": "This is an example post",
-                  "description": "This is an example description",
-                  "createdOn": "2024-12-05T10:08:34.4512336+00:00"
-                }
+                "example": {"id":9,"forum":6,"title":"This is an example post","description":"This is an example description","createdOn":"2024-12-05T10:08:34.4512336+00:00"}
               }
             }
           },
