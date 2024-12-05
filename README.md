@@ -25,10 +25,35 @@ Sistema leidžia naudotojams bendrauti administratorių moderuojamose forumuose 
 
 ![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/DeployUML.png)
 
-<h4>Naudotojo sąsajos projektas </h4>
+</h4>Naudotojo sąsajos projektas </h4>
 
-Langu eskizai ir screenshotai
+</h5>Forumų langas (eskizas)</h5>
 
+![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/ForumWindow.png)
+
+</h5>Forumų langas (screenshot)</h5>
+
+![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/ForumsReal.PNG)
+
+<hr/>
+</h5>Įrašų langas (eskizas)</h5>
+
+![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/PostWindow.png)
+
+</h5>Įrašų langas (screenshot)</h5>
+
+![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/PostReal.PNG)
+
+<hr/>
+</h5>Įrašų detalių langas (eskizas)</h5>
+
+![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/SpecificPostWindow.png)
+
+</h5>Įrašų detalių langas (screenshot)</h5>
+
+![Deployment diagram](https://raw.githubusercontent.com/DovKat/STPP_Projektas/refs/heads/main/Exports/PostDetailsReal.PNG)
+
+<hr/>
 <h4>Išvados</h4>
 
 Naudojant minimal API ir EF greitai ir paprastai sukurtas API projektas, naudojant Swagger sukurta dokumentacija. API patalpintas kaip Azure web app.
